@@ -18,9 +18,12 @@ def close_storage(exception):
 
 
 @app.errorhandler(404)
-def page_not_found(e):
+def handle_not_found_error(e):
     """handle 404 error"""
-    return jsonify({"error": "Not found"})
+    response = jsonify({"error": "Not found"})
+    response.status_code = 404
+    return response
+    
 
 
 if __name__ == "__main__":
