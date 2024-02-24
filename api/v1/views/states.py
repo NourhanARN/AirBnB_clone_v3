@@ -17,22 +17,15 @@ def all_states():
     return jsonify(all_states)
 
 
-# @app_views.route('/states/<state_id>', methods=['GET'],
-#                  strict_slashes=False)
-# def state_by_id(state_id):
-#     """Retrieves the list of State object by its id"""
-#     state = storage.get(State, state_id)
-#     if not state:
-#         abort(404)
-#     return jsonify(state.to_dict())
-@app_views.route('/states/<state_id>', methods=['GET'])
-def get_state(state_id):
-    '''Retrieves a State object'''
-    all_states = storage.all("State").values()
-    state_obj = [obj.to_dict() for obj in all_states if obj.id == state_id]
-    if state_obj == []:
+@app_views.route('/states/<state_id>', methods=['GET'],
+                 strict_slashes=False)
+def state_by_id(state_id):
+    """Retrieves the list of State object by its id"""
+    state = storage.get(State, state_id)
+    if not state:
         abort(404)
-    return jsonify(state_obj[0])
+    return jsonify(state.to_dict())
+
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
@@ -79,5 +72,6 @@ def update_state(state_id):
             setattr(state, key, value)
     storage.save()
     new_state_dict = state.to_dict()
-    return jsonify(new_state_dict), 200
+    new_state_dict.status_code = 200
+    return jsonify(new_state_dict)
 
