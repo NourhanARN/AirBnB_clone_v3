@@ -1,4 +1,4 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 """this module for State objects that handles all
 default RESTFul API actions"""
 from flask import jsonify, abort, request
