@@ -21,11 +21,10 @@ def all_states():
                  strict_slashes=False)
 def state_by_id(state_id):
     """Retrieves the list of State object by its id"""
-    try:
-        state = storage.get(State, state_id)
-        return jsonify(state.to_dict())
-    except Exception as e:
+    state = storage.get(State, state_id)
+    if not state:
         abort(404)
+    return jsonify(state.to_dict())
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
