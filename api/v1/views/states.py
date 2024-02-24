@@ -41,7 +41,7 @@ def state_by_id(state_id):
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state(state_id):
     '''Deletes a State object'''
-    all_states = storage.all("State").values()
+    all_states = storage.all(State).values()
     state_obj = [obj.to_dict() for obj in all_states if obj.id == state_id]
     if state_obj == []:
         abort(404)
