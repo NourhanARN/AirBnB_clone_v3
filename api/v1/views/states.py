@@ -7,7 +7,7 @@ from models.state import State
 from models import storage
 
 
-@app_views.route('/states', methods=['GET'])
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def all_states():
     all_states = []
     """Retrieves the list of all State objects"""
@@ -27,7 +27,8 @@ def state_by_id(state_id):
 
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_state_by_id(state_id):
     """delete State object by its id"""
     dict = {}
