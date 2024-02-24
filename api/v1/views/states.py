@@ -11,7 +11,7 @@ from models import storage
 def all_states():
     all_states = []
     """Retrieves the list of all State objects"""
-    states = storage.all('State').values()
+    states = storage.all(State).values()
     for state in states:
         all_states.append(state.to_dict())
     return jsonify(all_states)
@@ -20,7 +20,7 @@ def all_states():
 @app_views.route('/states/<state_id>', methods=['GET'])
 def state_by_id(state_id):
     """Retrieves the list of State object by its id"""
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -31,7 +31,7 @@ def state_by_id(state_id):
 def delete_state_by_id(state_id):
     """delete State object by its id"""
     dict = {}
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     storage.delete(state)
@@ -58,7 +58,7 @@ def create_state():
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def update_state(state_id):
     """Updates a State objec"""
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     request_data = request.get_json()
