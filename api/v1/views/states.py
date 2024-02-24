@@ -9,6 +9,7 @@ from models import storage
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def all_states():
+    all_states = []
     """Retrieves the list of all State objects"""
     states = storage.all(State).values()
     for state in states:
@@ -51,8 +52,8 @@ def create_state():
     new_state = State(name=request_data['name'])
     storage.new(new_state)
     storage.save()
-    new_state_dict = new_state.to_json()
-    return jsonify(new_state_dict), 200
+    new_state_dict = new_state.to_dict()
+    return jsonify(new_state_dict), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
@@ -69,5 +70,5 @@ def update_state(state_id):
         if key not in ignored_keys:
             setattr(state, key, value)
     storage.save()
-    new_state_dict = state.to_json()
+    new_state_dict = state.to_dict()
     return jsonify(new_state_dict), 200
