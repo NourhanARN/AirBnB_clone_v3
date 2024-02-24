@@ -27,8 +27,7 @@ def state_by_id(state_id):
 
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state_by_id(state_id):
     """delete State object by its id"""
     dict = {}
@@ -41,7 +40,7 @@ def delete_state_by_id(state_id):
 
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """create state object"""
     request_data = request.get_json()
