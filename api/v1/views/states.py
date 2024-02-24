@@ -51,7 +51,7 @@ def create_state():
     new_state = State(name=request_data['name'])
     storage.new(new_state)
     storage.save()
-    new_state_dict = new_state.to_dict()
+    new_state_dict = new_state.to_json()
     return jsonify(new_state_dict), 200
 
 
@@ -69,5 +69,5 @@ def update_state(state_id):
         if key not in ignored_keys:
             setattr(state, key, value)
     storage.save()
-    new_state_dict = state.to_dict()
+    new_state_dict = state.to_json()
     return jsonify(new_state_dict), 200
