@@ -55,19 +55,34 @@ def create_state():
     return jsonify(new_state_dict), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update_state(state_id):
-    """Updates a State objec"""
-    state = storage.get(State, state_id)
-    if state is None:
+# @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
+# def update_state(state_id):
+#     """Updates a State objec"""
+#     state = storage.get(State, state_id)
+#     if state is None:
+#         abort(404)
+#     request_data = request.get_json()
+#     if not request_data:
+#         abort(400, 'Not a JSON')
+#     for key, value in request_data.items():
+#         ignored_keys = ['id', 'updated_at', 'created_at']
+#         if key not in ignored_keys:
+#             setattr(state, key, value)
+#     storage.save()
+#     new_state_dict = state.to_dict()
+#     return jsonify(new_state_dict), 200
+@app_views.route('/states/<state_id>', methods=['PUT'])
+def updates_state(state_id):
+    '''Updates a State object'''
+    all_states = storage.all("State").values()
+    state_obj = [obj.to_dict() for obj in all_states if obj.id == state_id]
+    if state_obj == []:
         abort(404)
-    request_data = request.get_json()
-    if not request_data:
+    if not request.get_json():
         abort(400, 'Not a JSON')
-    for key, value in request_data.items():
-        ignored_keys = ['id', 'updated_at', 'created_at']
-        if key not in ignored_keys:
-            setattr(state, key, value)
+    state_obj[0]['name'] = request.json['name']
+    for obj in all_states:
+        if obj.id == state_id:
+            obj.name = request.json['name']
     storage.save()
-    new_state_dict = state.to_json()
-    return jsonify(new_state_dict), 200
+    return jsonify(state_obj[0]), 200
