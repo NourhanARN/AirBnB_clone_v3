@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-"""this module for State objects that handles all
+"""this module for place-amenities objects that handles all
 default RESTFul API actions"""
-from flask import jsonify, abort, request, make_response
+from flask import jsonify, abort
 from api.v1.views import app_views
 from models.place import Place
 from models.amenity import Amenity
