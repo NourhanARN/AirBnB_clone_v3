@@ -13,13 +13,14 @@ from models import storage
                  strict_slashes=False)
 def all_cities_place(city_id):
     """Retrieves the list of all Place objects of a City"""
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
     all_places = []
     places = storage.all(Place)
     for key, value in places.items():
         if city_id == value.city_id:
             all_places.append(value.to_dict())
-    if not all_places:
-        abort(404)
     return jsonify(all_places)
 
 
@@ -60,7 +61,7 @@ def create_place(city_id):
     user = storage.get(User, user_id)
     if not user:
         abort(404)    
-    new_place = Place(**request_data)
+    new_place = Place(city_id=city_id, **request_data)
     storage.new(new_place)
     storage.save()
     return jsonify(new_place.to_dict()), 201
