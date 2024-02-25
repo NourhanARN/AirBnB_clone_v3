@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """this module for State objects that handles all
 default RESTFul API actions"""
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models.place import Place
 from models.city import City
@@ -9,7 +9,8 @@ from models.user import User
 from models import storage
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
+                 strict_slashes=False)
 def all_cities_place(city_id):
     """Retrieves the list of all Place objects of a City"""
     all_places = []
@@ -42,16 +43,15 @@ def delete_place_by_id(place_id):
     return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'],
-                 strict_slashes=False)
+@app_views.route('/cities/<city_id>/places', methods=['POST'])
 def create_place(city_id):
     """function that create place object"""
+    if not request.is_json:
+        return make_response("Not a JSON", 400)
     city = storage.get(City, city_id)
     if not city:
         abort(404)
     request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
     if 'name' not in request_data:
         abort(400, 'Missing name')
     if 'user_id' not in request_data:
@@ -69,12 +69,12 @@ def create_place(city_id):
 @app_views.route('/places/<place_id>', methods=['PUT'])
 def update_place(place_id):
     """function that updates a place object"""
+    if not request.is_json:
+        return make_response("Not a JSON", 400)
     place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
     for key, value in request_data.items():
         ignored_keys = ["id", "city_id", "user_id", "created_at", "updated_at"]
         if key not in ignored_keys:
