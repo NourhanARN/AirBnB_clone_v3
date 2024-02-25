@@ -41,18 +41,17 @@ def delete_user_by_id(user_id):
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
     """function that create user object"""
-    request_data = {}
     request_data = request.get_json()
-    if not json.loads(request_data):
+    if not request_data:
         abort(400, 'Not a JSON')
     if 'email' not in request_data:
         abort(400, 'Missing email')
     if 'password' not in request_data:
         abort(400, 'Missing password')
-    new_city = User(**request_data)
+    new_user = User(**request_data)
+    storage.new(new_user)
     storage.save()
-    new_city_dict = new_city.to_dict()
-    return jsonify(new_city_dict), 201
+    return jsonify(new_user.to_dict()), 201
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
