@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """this module for Amenity objects that handles all
 default RESTFul API actions"""
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models.amenity import Amenity
 from models import storage
@@ -40,9 +40,9 @@ def delete_amenity_by_id(amenity_id):
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def create_amenity():
     """function that create amenity object"""
+    if not request.is_json:
+        return make_response("Not a JSON", 400)
     request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
     if 'name' not in request_data:
         abort(400, 'Missing name')
     new_amenity = Amenity(name=request_data['name'])
@@ -55,12 +55,12 @@ def create_amenity():
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
 def update_Amenity(amenity_id):
     """function that updates a Amenity object"""
+    if not request.is_json:
+        return make_response("Not a JSON", 400)
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
     for key, value in request_data.items():
         ignored_keys = ["id", "created_at", "updated_at"]
         if key not in ignored_keys:
