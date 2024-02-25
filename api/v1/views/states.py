@@ -9,8 +9,8 @@ from models import storage
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def all_states():
-    all_states = []
     """Retrieves the list of all State objects"""
+    all_states = []
     states = storage.all(State).values()
     for state in states:
         all_states.append(state.to_dict())
