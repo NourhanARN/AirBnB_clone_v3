@@ -11,7 +11,10 @@ from models import storage
 @app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
 def all_cities_state(state_id):
     """Retrieves the list of all City objects of a State"""
-    all_cities = []
+    all_cities = []  
+    state = storage.get(State, state_id)
+    if not state:
+        abort(404)
     cities = storage.all(City)
     for key, value in cities.items():
         if state_id == value.state_id:
@@ -39,20 +42,21 @@ def delete_city_by_id(city_id):
     return jsonify({}), 200
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities', methods=['POST'])
 def create_city(state_id):
     """function that create city object"""
     request_data = request.get_json()
+    state = storage.get(State, state_id)
+    if not state:
+        abort(404)
     if not request_data:
         abort(400, 'Not a JSON')
     if 'name' not in request_data:
         abort(400, 'Missing name')
-    name = request_data.get('name')
-    new_city = City(state_id=state_id, name=name)
+    new_city = City(**request_data)
     storage.new(new_city)
     storage.save()
-    new_city_dict = new_city.to_dict()
-    return jsonify(new_city_dict), 201
+    return jsonify(new_city.to_dict()), 201
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'])
@@ -69,5 +73,4 @@ def update_city(city_id):
         if key not in ignored_keys:
             setattr(city, key, value)
     storage.save()
-    new_city_dict = city.to_dict()
-    return jsonify(new_city_dict), 200
+    return jsonify(city.to_dict()), 200
