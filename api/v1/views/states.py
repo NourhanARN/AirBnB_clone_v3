@@ -6,14 +6,22 @@ from models.state import State
 from models import storage
 
 
+# @app_views.route('/states', methods=['GET'], strict_slashes=False)
+# def all_states():
+#     """Retrieves the list of all State objects"""
+#     all_states = []
+#     states = storage.all(State).values()
+#     for state in states:
+#         all_states.append(state.to_dict())
+#     return jsonify(all_states)
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
-def all_states():
-    """Retrieves the list of all State objects"""
-    all_states = []
-    states = storage.all(State).values()
+def states_all():
+    """ returns list of all State objects """
+    states_all = []
+    states = storage.all("State").values()
     for state in states:
-        all_states.append(state.to_dict())
-    return jsonify(all_states)
+        states_all.append(state.to_json())
+    return jsonify(states_all)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'])
