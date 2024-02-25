@@ -37,34 +37,19 @@ def delete_state_by_id(state_id):
     return jsonify({}), 200
 
 
-# @app_views.route('/states', methods=['POST'], strict_slashes=False)
-# def create_state():
-#     """function that create state object"""
-#     request_data = request.get_json()
-#     if not request_data:
-#         abort(400, 'Not a JSON')
-#     if 'name' not in request_data:
-#         abort(400, 'Missing name')
-#     new_state = State(name=request_data['name'])
-#     storage.new(new_state)
-#     storage.save()
-#     new_state_dict = new_state.to_dict()
-#     return jsonify(new_state_dict), 201
-
-
-@app_views.route('/states/', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
-    '''Creates a State'''
-    if not request.get_json():
+    """function that create state object"""
+    request_data = request.get_json()
+    if not request_data:
         abort(400, 'Not a JSON')
-    if 'name' not in request.get_json():
+    if 'name' not in request_data:
         abort(400, 'Missing name')
-    states = []
-    new_state = State(name=request.json['name'])
+    new_state = State(name=request_data['name'])
     storage.new(new_state)
     storage.save()
-    states.append(new_state.to_dict())
-    return jsonify(states[0]), 201
+    new_state_dict = new_state.to_dict()
+    return jsonify(new_state_dict), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'])
