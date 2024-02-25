@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """handles all default RESTFul API actions"""
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models.state import State
 from models import storage
@@ -39,9 +39,9 @@ def delete_state_by_id(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """function that create state object"""
+    if not request.is_json:
+       return make_response("Not a JSON", 400)
     request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
     if 'name' not in request_data:
         abort(400, 'Missing name')
     new_state = State(**request_data)
@@ -53,12 +53,12 @@ def create_state():
 @app_views.route('/states/<state_id>', methods=['PUT'])
 def update_state(state_id):
     """function that updates a State object"""
+    if not request.is_json:
+       return make_response("Not a JSON", 400)
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
     request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
     ignored_keys = ["id", "created_at", "updated_at"]
     for key, value in request_data.items():
         if key not in ignored_keys:

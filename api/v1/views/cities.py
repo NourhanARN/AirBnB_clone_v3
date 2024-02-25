@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """this module for State objects that handles all
 default RESTFul API actions"""
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request , make_response
 from api.v1.views import app_views
 from models.state import State
 from models.city import City
@@ -62,12 +62,12 @@ def create_city(state_id):
 @app_views.route('/cities/<city_id>', methods=['PUT'])
 def update_city(city_id):
     """function that updates a city object"""
+    if not request.is_json:
+       return make_response("Not a JSON", 400)
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
     request_data = request.get_json()
-    if not request_data:
-        abort(400, 'Not a JSON')
     for key, value in request_data.items():
         ignored_keys = ["id", "state_id", "created_at", "updated_at"]
         if key not in ignored_keys:
