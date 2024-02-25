@@ -12,7 +12,7 @@ def all_states():
     all_states = []
     states = storage.all(State).values()
     for state in states:
-        all_states.append(state.to_json())
+        all_states.append(state.to_dict())
     return jsonify(all_states)
 
 
@@ -22,7 +22,7 @@ def state_by_id(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    return jsonify(state.to_json())
+    return jsonify(state.to_dict())
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
@@ -48,7 +48,7 @@ def create_state():
     new_state = State(**request_data)
     # storage.new(new_state)
     storage.save()
-    new_state_dict = new_state.to_json()
+    new_state_dict = new_state.to_dict()
     return jsonify(new_state_dict), 201
 
 
@@ -68,5 +68,5 @@ def update_state(state_id):
             setattr(state, key, value)
     # storage.save()
     state.save()
-    new_state_dict = state.to_json()
+    new_state_dict = state.to_dict()
     return jsonify(new_state_dict)
