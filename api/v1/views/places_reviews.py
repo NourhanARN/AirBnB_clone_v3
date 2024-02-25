@@ -13,17 +13,18 @@ from models import storage
                  strict_slashes=False)
 def all_reviews_place(place_id):
     """Retrieves the list of all Review objects of a Place"""
-    all_reviews = []
-    reviews = storage.all(Review)
-    for key, value in reviews.items():
-        if place_id == value.place_id:
-            all_reviews.append(value.to_dict())
-    if not all_reviews:
+    place = storage.get(Place, place_id)
+    if place is None:
         abort(404)
+    all_reviews = []
+    for review in place.reviews:
+        if place_id == review.place_id:
+            all_reviews.append(review.to_dict())
     return jsonify(all_reviews)
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET'])
+@app_views.route('/reviews/<review_id>', methods=['GET'],
+                 strict_slashes=False)
 def review_by_id(review_id):
     """Retrieves a review object by its id"""
     review = storage.get(Review, review_id)
@@ -43,7 +44,8 @@ def delete_review_by_id(review_id):
     return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['POST'])
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
+                 strict_slashes=False)
 def create_review(place_id):
     """function that create place object"""
     if not request.is_json:
@@ -59,8 +61,8 @@ def create_review(place_id):
     if not user:
         abort(404)
     if 'text' not in request_data:
-        abort(400, 'Missing text')   
-    new_review = Place(**request_data)
+        abort(400, 'Missing text')
+    new_review = Place(place_id=place_id, **request_data)
     storage.new(new_review)
     storage.save()
     return jsonify(new_review.to_dict()), 201
@@ -76,7 +78,8 @@ def update_review(review_id):
         abort(404)
     request_data = request.get_json()
     for key, value in request_data.items():
-        ignored_keys = ["id", "user_id", "place_id", "created_at", "updated_at"]
+        ignored_keys = ["id", "user_id", "place_id",
+                        "created_at", "updated_at"]
         if key not in ignored_keys:
             setattr(review, key, value)
     storage.save()
