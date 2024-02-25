@@ -23,8 +23,7 @@ def all_reviews_place(place_id):
     return jsonify(all_reviews)
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET'],
-                 strict_slashes=False)
+@app_views.route('/reviews/<review_id>', methods=['GET'])
 def review_by_id(review_id):
     """Retrieves a review object by its id"""
     review = storage.get(Review, review_id)
@@ -44,7 +43,8 @@ def delete_review_by_id(review_id):
     return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['POST'])
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
+                 strict_slashes=False)
 def create_review(place_id):
     """function that create place object"""
     if not request.is_json:
