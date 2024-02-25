@@ -11,7 +11,8 @@ from models.base_model import BaseModel
 import pep8
 import unittest
 State = state.State
-storage = getenv("HBNB_TYPE_STORAGE", "fs")
+import os
+storage = os.getenv("HBNB_TYPE_STORAGE", "fs")
 
 class TestStateDocs(unittest.TestCase):
     """Tests to check the documentation and style of State class"""
@@ -104,7 +105,7 @@ class TestState(unittest.TestCase):
         string = "[State] ({}) {}".format(state.id, state.__dict__)
         self.assertEqual(string, str(state))
     
-     def test_States_dbtable(self):
+    def test_States_dbtable(self):
         '''
             Check if the tablename is correct
         '''
