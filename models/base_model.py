@@ -10,6 +10,7 @@ import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
+import json
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -78,3 +79,23 @@ class BaseModel:
     def delete(self):
         """delete the current instance from the storage"""
         models.storage.delete(self)
+    
+    def to_json(self):
+        """returns a JSON string containing all keys/values of the instance"""
+        new_dict = self.__dict__.copy()
+        time_format = "%Y-%m-%dT%H:%M:%S"  # Adjust the time format as needed
+
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict["created_at"].strftime(time_format)
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict["updated_at"].strftime(time_format)
+        new_dict["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in new_dict:
+            del new_dict["_sa_instance_state"]
+
+        # Remove sensitive information when not saving to a file
+        if "password" in new_dict:
+            del new_dict["password"]
+
+        json_string = json.dumps(new_dict, indent=2)
+        return json_string
