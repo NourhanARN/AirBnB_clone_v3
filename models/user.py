@@ -29,7 +29,7 @@ class User(BaseModel, Base):
         """initializes user"""
         super().__init__(*args, **kwargs)
         if 'password' in kwargs:
-            self.password = self.hash_password(kwargs['password'])
+            self.password = self.hash_password('password')
 
     def hash_password(password):
         """hash password"""
