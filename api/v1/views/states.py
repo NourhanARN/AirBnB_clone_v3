@@ -43,9 +43,9 @@ def delete_state_by_id(state_id):
 def create_state():
     """function that create state object"""
     request_data = request.get_json()
-    if not request_data:
+    if not request_data.json:
         abort(400, 'Not a JSON')
-    if 'name' not in request_data:
+    if 'name' not in request_data.json:
         abort(400, 'Missing name')
     new_state = State(**request_data)
     # storage.new(new_state)
