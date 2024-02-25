@@ -62,9 +62,9 @@ def create_place(city_id):
     user_id = request_data.get('user_id')
     user = storage.get(User, user_id)
     if not user:
-        abort(404)    
+        abort(404)
     new_place = Place(city_id=city_id, **request_data)
-    storage.new(new_place)  
+    storage.new(new_place)
     storage.save()
     return jsonify(new_place.to_dict()), 201
 
