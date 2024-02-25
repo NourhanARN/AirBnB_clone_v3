@@ -10,14 +10,13 @@ from models import storage
 def all_states():
     """Retrieves the list of all State objects"""
     all_states = []
-    states = storage.all("State").values()
+    states = storage.all(State).values()
     for state in states:
         all_states.append(state.to_dict())
     return jsonify(all_states)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'],
-                 strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['GET'])
 def state_by_id(state_id):
     """Retrieves the list of State object by its id"""
     state = storage.get(State, state_id)
@@ -26,8 +25,7 @@ def state_by_id(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'],
-                 strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_state_by_id(state_id):
     """function that delete State object by its id"""
     state = storage.get(State, state_id)
@@ -49,12 +47,10 @@ def create_state():
     new_state = State(**request_data)
     storage.new(new_state)
     storage.save()
-    new_state_dict = new_state.to_dict()
-    return jsonify(new_state_dict), 201
+    return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'],
-                 strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['PUT'])
 def update_state(state_id):
     """function that updates a State object"""
     state = storage.get(State, state_id)
@@ -68,5 +64,4 @@ def update_state(state_id):
         if key not in ignored_keys:
             setattr(state, key, value)
     storage.save()
-    new_state_dict = state.to_dict()
-    return jsonify(new_state_dict)
+    return jsonify(state.to_dict()), 200
