@@ -58,7 +58,7 @@ def create_user():
 def update_user(user_id):
     """function that updates a user object"""
     user = storage.get(User, user_id)
-    if user is None or user_id != user.id:
+    if user is None:
         abort(404)
     request_data = request.get_json()
     if not request_data:

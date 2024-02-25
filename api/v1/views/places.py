@@ -3,7 +3,7 @@
 default RESTFul API actions"""
 from flask import jsonify, abort, request
 from api.v1.views import app_views
-from models.placelace import Place
+from models.place import Place
 from models import storage
 
 
