@@ -17,23 +17,21 @@ def close_storage(exception):
     storage.close()
 
 
-@app.errorhandler(404)
-def handle_not_found_error(e):
-    """handle 404 error"""
-    response = jsonify({"error": "Not found"})
-    response.status_code = 404
-    return response
+# @app.errorhandler(404)
+# def handle_not_found_error(e):
+#     """handle 404 error"""
+#     response = jsonify({"error": "Not found"})
+#     response.status_code = 404
+#     return response
 
 
 if __name__ == "__main__":
-    # if os.getenv("HBNB_API_HOST") is None:
-    #     host = "0.0.0.0"
-    # else:
-    #     host = os.getenv("HBNB_API_HOST")
-    # if os.getenv("HBNB_API_PORT") is None:
-    #     port = 5000
-    # else:
-    #     port = int(os.getenv("HBNB_API_PORT"))
-    host = os.getenv('HBNB_API_HOST', default='0.0.0.0')
-    port = os.getenv('HBNB_API_PORT', default=5000)
+    if os.getenv("HBNB_API_HOST") is None:
+        host = "0.0.0.0"
+    else:
+        host = os.getenv("HBNB_API_HOST")
+    if os.getenv("HBNB_API_PORT") is None:
+        port = 5000
+    else:
+        port = int(os.getenv("HBNB_API_PORT"))
     app.run(host=host, port=port, threaded=True)
