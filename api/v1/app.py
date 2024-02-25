@@ -8,7 +8,6 @@ from flask import jsonify
 
 
 app = Flask(__name__)
-
 app.register_blueprint(app_views)
 
 
@@ -27,12 +26,14 @@ def handle_not_found_error(e):
 
 
 if __name__ == "__main__":
-    if os.getenv("HBNB_API_HOST") is None:
-        host = "0.0.0.0"
-    else:
-        host = os.getenv("HBNB_API_HOST")
-    if os.getenv("HBNB_API_PORT") is None:
-        port = 5000
-    else:
-        port = int(os.getenv("HBNB_API_PORT"))
-    app.run(host=host, port=port, threaded=True)
+    # if os.getenv("HBNB_API_HOST") is None:
+    #     host = "0.0.0.0"
+    # else:
+    #     host = os.getenv("HBNB_API_HOST")
+    # if os.getenv("HBNB_API_PORT") is None:
+    #     port = 5000
+    # else:
+    #     port = int(os.getenv("HBNB_API_PORT"))
+    host = os.getenv('HBNB_API_HOST', default='0.0.0.0')
+    port = os.getenv('HBNB_API_PORT', default=5000)
+    app.run(host=host, port=int(port), threaded=True)
