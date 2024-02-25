@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """this module configures and runs the Flask application"""
-from flask import Flask
+from flask import Flask, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
@@ -8,6 +8,8 @@ from flask import jsonify
 
 
 app = Flask(__name__)
+
+app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
 
 
@@ -23,6 +25,7 @@ def handle_not_found_error(e):
     response = jsonify({"error": "Not found"})
     response.status_code = 404
     return response
+    # return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == "__main__":
