@@ -20,7 +20,7 @@ def all_states():
                  strict_slashes=False)
 def state_by_id(state_id):
     """Retrieves the list of State object by its id"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -30,7 +30,7 @@ def state_by_id(state_id):
                  strict_slashes=False)
 def delete_state_by_id(state_id):
     """function that delete State object by its id"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     storage.delete(state)
@@ -58,7 +58,7 @@ def create_state():
                  strict_slashes=False)
 def update_state(state_id):
     """function that updates a State object"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     request_data = request.get_json()
