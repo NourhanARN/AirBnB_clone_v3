@@ -68,4 +68,4 @@ def update_state(state_id):
     # storage.save()
     state.save()
     new_state_dict = state.to_dict()
-    return jsonify(new_state_dict), 200
+    return jsonify(new_state_dict)
