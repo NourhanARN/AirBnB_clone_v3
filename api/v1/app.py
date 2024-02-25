@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """this module configures and runs the Flask application"""
-from flask import Flask , jsonify
+from flask import Flask , jsonify, make_response
 from models import storage
 from api.v1.views import app_views
 import os
@@ -20,8 +20,8 @@ def close_storage(exception):
 @app.errorhandler(404)
 def handle_not_found_error(e):
     """handle 404 error"""
-    response = jsonify({"error": "Not found"})
-    return (response), 404
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
 
 
 if __name__ == "__main__":
