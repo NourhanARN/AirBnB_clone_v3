@@ -19,10 +19,15 @@ def all_states():
 @app_views.route('/states/<state_id>', methods=['GET'])
 def state_by_id(state_id):
     """Retrieves the list of State object by its id"""
-    state = storage.get(State, state_id)
-    if state is None:
+    try:
+        state = storage.get(State, state_id)
+        return jsonify(state.to_dict())
+    except Exception:
         abort(404)
-    return jsonify(state.to_dict())
+    # state = storage.get(State, state_id)
+    # if state is None:
+    #     abort(404)
+    # return jsonify(state.to_dict())
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
@@ -34,6 +39,7 @@ def delete_state_by_id(state_id):
     storage.delete(state)
     storage.save()
     return jsonify({}), 200
+    
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
