@@ -3,12 +3,13 @@
 default RESTFul API actions"""
 from flask import jsonify, abort, request
 from api.v1.views import app_views
-from models.user import User
+from models.placelace import Place
 from models import storage
 
 
-@app_views.route('/users', methods=['GET'], strict_slashes=False)
-def all_users():
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
+                 strict_slashes=False)
+def all_users(city_id):
     """Retrieves the list of all users objects"""
     all_users = []
     users = storage.all(User).values()
