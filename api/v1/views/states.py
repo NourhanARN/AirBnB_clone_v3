@@ -67,7 +67,7 @@ def update_state(state_id):
     # storage.save()
     # new_state_dict = state.to_dict()
     # return jsonify(new_state_dict), 200
-    state = storage.get('State', state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     if not request.json:
