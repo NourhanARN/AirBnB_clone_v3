@@ -26,15 +26,15 @@ def user_by_id(user_id):
     return jsonify(user.to_dict())
 
 
-@app_views.route('/users/<user_id>', methods=['DELETE'])
-def delete_user_by_id(user_id):
-    """function that delete user object by its id"""
-    user = storage.get(User, user_id)
-    if user is None:
-        abort(404)
-    storage.delete(user)
-    storage.save()
-    return jsonify({}), 200
+# @app_views.route('/users/<user_id>', methods=['DELETE'])
+# def delete_user_by_id(user_id):
+#     """function that delete user object by its id"""
+#     user = storage.get(User, user_id)
+#     if user is None:
+#         abort(404)
+#     storage.delete(user)
+#     storage.save()
+#     return jsonify({}), 200
 
 
 # @app_views.route('/states/<state_id>/cities', methods=['POST'], strict_slashes=False)
