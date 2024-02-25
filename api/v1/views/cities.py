@@ -16,10 +16,8 @@ def all_cities_state(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    cities = storage.all(City)
-    for key, value in cities.items():
-        if state_id == value.state_id:
-            all_cities.append(value.to_dict())
+    for city in state.cities:
+        all_cities.append(city.to_dict())
     return jsonify(all_cities)
 
 
@@ -54,7 +52,7 @@ def create_city(state_id):
         abort(404)
     if 'name' not in request_data:
         abort(400, 'Missing name')
-    new_city = City(**request_data)
+    new_city = City(state_id=state_id, **request_data)
     storage.new(new_city)
     storage.save()
     return jsonify(new_city.to_dict()), 201
