@@ -60,10 +60,14 @@ def update_state(state_id):
     request_data = request.get_json()
     if not request_data:
         abort(400, 'Not a JSON')
-    for key, value in request_data.items():
-        ignored_keys = ["id", "created_at", "updated_at"]
-        if key not in ignored_keys:
-            setattr(state, key, value)
-    storage.save()
-    new_state_dict = state.to_dict()
-    return jsonify(new_state_dict), 200
+    key = "name"
+    setattr(state, key, request.get_json().get(key))
+    state.save()
+    return jsonify(state.to_dict())
+    # for key, value in request_data.items():
+    #     ignored_keys = ["id", "created_at", "updated_at"]
+    #     if key not in ignored_keys:
+    #         setattr(state, key, value)
+    # storage.save()
+    # new_state_dict = state.to_dict()
+    # return jsonify(new_state_dict), 200
