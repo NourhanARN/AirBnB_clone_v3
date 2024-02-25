@@ -3,7 +3,7 @@
 default RESTFul API actions"""
 from flask import jsonify, abort, request
 from api.v1.views import app_views
-from models.Amenity import Amenity
+from models.amenity import Amenity
 from models import storage
 
 
