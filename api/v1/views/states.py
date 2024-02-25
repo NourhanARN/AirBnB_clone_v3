@@ -26,16 +26,16 @@ def state_by_id(state_id):
     return jsonify(state.to_dict())
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'],
-                 strict_slashes=False)
-def delete_state_by_id(state_id):
-    """function that delete State object by its id"""
-    state = storage.get(State, state_id)
-    if state is None:
-        abort(404)
-    storage.delete(state)
-    # storage.save()
-    return jsonify({}), 200
+# @app_views.route('/states/<state_id>', methods=['DELETE'],
+#                  strict_slashes=False)
+# def delete_state_by_id(state_id):
+#     """function that delete State object by its id"""
+#     state = storage.get(State, state_id)
+#     if state is None:
+#         abort(404)
+#     storage.delete(state)
+#     storage.save()
+#     return jsonify({}), 200
     
 
 
@@ -43,12 +43,12 @@ def delete_state_by_id(state_id):
 def create_state():
     """function that create state object"""
     request_data = request.get_json()
-    if not request_data.json:
+    if not request_data:
         abort(400, 'Not a JSON')
-    if 'name' not in request_data.json:
+    if 'name' not in request_data:
         abort(400, 'Missing name')
     new_state = State(**request_data)
-    # storage.new(new_state)
+    storage.new(new_state)
     storage.save()
     new_state_dict = new_state.to_dict()
     return jsonify(new_state_dict), 201
