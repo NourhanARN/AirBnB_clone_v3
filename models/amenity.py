@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship
 class Amenity(BaseModel, Base):
     """Representation of Amenity """
     __tablename__ = 'amenities'
-    if models.storage_t == 'db':    
+    if models.storage_t == 'db':
         name = Column(String(128), nullable=False)
     else:
         name = ""
