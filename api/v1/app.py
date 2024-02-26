@@ -30,7 +30,7 @@ if __name__ == "__main__":
         host = "0.0.0.0"
     else:
         host = os.getenv('HBNB_API_HOST')
-    if os.getenv('HBNB_API_PORT')is None:
+    if os.getenv('HBNB_API_PORT') is None:
         port = 5000
     else:
         port = int(os.getenv('HBNB_API_PORT'))
