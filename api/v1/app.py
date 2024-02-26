@@ -35,7 +35,7 @@ if __name__ == '__main__':
         HBNB_API_PORT = 5000
     else:
         HBNB_API_PORT = int(getenv("HBNB_API_PORT"))
-    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
+    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True, debug=True)
 # #!/usr/bin/python3
 # """this module configures and runs the Flask application"""
 # from flask import Flask, jsonify, make_response
