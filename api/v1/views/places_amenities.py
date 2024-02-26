@@ -39,11 +39,11 @@ def delete_Amenity_by_id(place_id, amenity_id):
     if getenv('HBNB_TYPE_STORAGE') == "db":
         if amenity_id != place.amenity_id:
             abort(404)       
-        storage.delete(amenity)
+        storage.remove(amenity)
     else:
         if amenity_id not in place.amenity_ids:
             abort(404)
-        place.amenity_ids.delete(amenity_id)
+        place.amenity_ids.remove(amenity_id)
     storage.save()
     return jsonify({}), 200
 
@@ -65,6 +65,5 @@ def link_Amenity_place(place_id, amenity_id):
             return make_response(jsonify(amenity.to_dict()), 200)
         else:
             place.amenity_ids.append(amenity_id)
-
     storage.save()
     return make_response(jsonify(amenity.to_dict()), 201)
