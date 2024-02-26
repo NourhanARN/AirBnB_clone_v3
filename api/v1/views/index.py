@@ -16,13 +16,13 @@ classes = {"users": User, "places": Place, "states": State,
            "cities": City, "amenities": Amenity, "reviews": Review}
 
 
-@app_views.route("/status", methods=['GET'])
+@app_views.route("/status", methods=['GET'], strict_slashes=False)
 def status():
     """ returns a JSON: "status": "OK" """
     return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats", methods=['GET'])
+@app_views.route("/stats", methods=['GET'], strict_slashes=False)
 def count_stats():
     """retrieves the number of each objects by type"""
     result = {}
