@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""create a route /status on the object app_views"""
+"""create a route status on the object app_views"""
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
@@ -22,7 +22,7 @@ def status():
     return jsonify({"status": "OK"})
 
 
-@app_views.route("/stats", methods=['GET'], strict_slashes=False)
+@app_views.route("/stats", methods=['GET'])
 def count_stats():
     """retrieves the number of each objects by type"""
     result = {}
