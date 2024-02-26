@@ -45,7 +45,7 @@ def delete_Amenity_by_id(place_id, amenity_id):
             abort(404)
         place.amenity_ids.remove(amenity_id)
     storage.save()
-    return jsonify({}), 200
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'])
